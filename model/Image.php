@@ -1005,14 +1005,15 @@ class Image extends File implements Flushable {
 	 */
 	public function getDimensions($dim = "string") {
 		if($this->getField('Filename')) {
-
 			$imagefile = $this->getFullPath();
 			if($this->exists()) {
 				$size = getimagesize($imagefile);
-				return ($dim === "string") ? "$size[0]x$size[1]" : $size[$dim];
-			} else {
-				return ($dim === "string") ? "file '$imagefile' not found" : null;
+				if ($size) {
+					return ($dim === "string") ? "$size[0]x$size[1]" : $size[$dim];
+				}
 			}
+
+			return ($dim === "string") ? "file '$imagefile' not found" : null;
 		}
 	}
 
