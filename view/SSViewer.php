@@ -491,7 +491,9 @@ class SSViewer_DataPresenter extends SSViewer_Scope {
 		}
 		// Check if the method to-be-called exists on the target object - if so, don't check any further
 		// injection locations
-		else if (isset($on->$property) || method_exists($on, $property)) {
+		else if (isset($on->$property) ||
+		         (is_object($on) && method_exists($on, $property)) ||
+		         (!is_object($on) && method_exists((string)$on, $property))) {
 			$source = null;
 		}
 		// Check for a presenter-specific override
